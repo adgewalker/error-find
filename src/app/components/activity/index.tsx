@@ -63,14 +63,15 @@ export const Activity = ({ activity, onComplete }: ActivityProps) => {
   }, [responses]);
 
   return (
-    <div className="w-[50%]">
-      <h1 className="text-blue-500">{title}</h1>
+    <div className="flex flex-col gap-4 px-6 w-full">
+      <h1 className='text-2xl'>{title}</h1>
       <Question question={question} />
       <div className="flex flex-row gap-2">
         <AnswerButton
           onClick={() => {
             answerQuestion(true);
           }}
+          classes='flex-grow-[1]'
         >
           Correct
         </AnswerButton>
@@ -78,6 +79,7 @@ export const Activity = ({ activity, onComplete }: ActivityProps) => {
           onClick={() => {
             answerQuestion(false);
           }}
+          classes='flex-grow-[1]'
         >
           Incorrect
         </AnswerButton>

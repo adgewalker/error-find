@@ -14,12 +14,10 @@ export const ScoreActivity = ({
   roundResponses,
 }: ScoreActivityProps) => {
   const singleRound = activity.rounds.length === 1;
-  console.log(singleRound);
-  console.log(roundResponses);
   return (
-    <div>
-      <h1>{activity.activity_name}</h1>
-      <h2>Results</h2>
+    <div className="flex flex-col gap-4 px-6 w-full">
+      <h1 className='text-2xl'>{activity.activity_name}</h1>
+      <h2 className='text-xl'>Results</h2>
       {singleRound && (
         <RoundResults responses={roundResponses[0].questionResponses} />
       )}

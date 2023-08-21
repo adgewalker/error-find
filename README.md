@@ -1,8 +1,6 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## 'Error Find' - a simple quiz application written in React/Typescript using Next.js 13
 
-## Getting Started
-
-First, run the development server:
+To run the development server:
 
 ```bash
 npm run dev
@@ -14,21 +12,24 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+This app was deployed on [https://fly.io](fly.io) as [https://error-find.fly.dev/](https://error-find.fly.dev/)
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Approach and consideration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+I made two major decisions when making this app:
 
-## Deploy on Vercel
+1) It would be a non-routing SPA. Since there was no requirement to move back/forward between questions, nor to launch directly into an activity/round/question from a URL, this seemed like the best solution
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2) The activities would be data driven. All activities held in the API data can be linked to from the home page, and each activity operates depending on the data held within.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+In order to do this, I had to normalise the data from the API such that both 'flows' had the same shape. In other words, rather than some activities having questions which are actually rounds, every activity has at least one round containing a number of questions.
+
+The Activity component is then responsible for deciding how to display these questions and bundle the responses back to the parent page. Likewise, the parent page is responsible for displaying the results sensibly, such that only multi-round activities have their questions split by round titles.
+
+Everything else is standard React code using useState and useEffect hooks. I made interfaces out of every domain object, and every set of component properties.
+
+* Note - I copied the data from the API into the app rather than fetching it directly from the browser due to the access control policy on the server

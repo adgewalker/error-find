@@ -10,9 +10,9 @@ interface RoundResultsProps {
 
 export const RoundResults = ({ responses, title }: RoundResultsProps) => {
   return (
-    <Fragment>
+    <div className='flex flex-col'>
       {title && <div>{title}</div>}
       {responses.map((response: IQuestionResponse, index: number) => <Result key={index} response={response} />)}
-    </Fragment>
+    </div>
   )
 };

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { Header } from "./components/header";
 import data from "./data/quizdata.json";
 import { IActivity } from "./interfaces/activity";
@@ -16,7 +15,7 @@ export default function Home() {
   const [responses, setResponses] = useState<Array<IRoundResponse> | undefined>()
 
   // normalise the data so that every activity has at least one round
-  const { name, activities } = processData(data);
+  const { name, heading, activities } = processData(data);
 
   const selectActivity = (activity: IActivity) => {
     setResponses(undefined);
@@ -25,7 +24,6 @@ export default function Home() {
 
   const scoreActivity = (responses: Array<IRoundResponse>) => {
     setResponses(responses);
-    console.log(responses);
   }
 
   const goHome = () => {
@@ -34,15 +32,16 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-24 gap-2">
+    <main className="flex min-h-screen flex-col items-center sm:items-start p-4">
       <Header />
-      <h1>{name}</h1>
+      <h1 className='text-3xl p-4'>{name}</h1>
       {!activity && !responses && activities?.map((activity: IActivity, index) => (
         <Button
           onClick={() => {
             selectActivity(activity);
           }}
           key={index}
+          classes="border-t-[1px] border-b-[1px] border-solid border-gray-300 py-4 w-full"
         >
           {activity.activity_name}
         </Button>
@@ -52,8 +51,8 @@ export default function Home() {
 
       {activity && responses && <ScoreActivity activity={activity} roundResponses={responses} />}
 
-      {activity && responses && <Button onClick={goHome} classes="uppercase">Home</Button>}
-
+      {activity && responses && <div className="flex flex-col gap-4 px-6 w-full py-2"><Button onClick={goHome} classes="w-full uppercase">Home</Button></div>}
+      
     </main>
   );
 }
