@@ -9,11 +9,16 @@ export const metadata: Metadata = {
   description: 'A Quiz App created in Next.js and React',
 }
 
+const endpoint = "https://s3.eu-west-2.amazonaws.com/interview.mock.data/payload.json";
+
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+
+
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>
