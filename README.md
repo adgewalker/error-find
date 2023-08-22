@@ -14,11 +14,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Deployment
 
-This app was deployed on [https://fly.io](fly.io) as [https://error-find.fly.dev/](https://error-find.fly.dev/)
+This app is deployed on [https://fly.io](fly.io) as [https://error-find.fly.dev/](https://error-find.fly.dev/)
 
-
-
-## Approach and consideration
+## Architectural Approach
 
 I made two major decisions when making this app:
 
@@ -33,3 +31,7 @@ The Activity component is then responsible for deciding how to display these que
 Everything else is standard React code using useState and useEffect hooks. I made interfaces out of every domain object, and every set of component properties.
 
 * Note - I copied the data from the API into the app rather than fetching it directly from the browser due to the access control policy on the server
+
+## UI
+
+I'm using TailwindCSS with a few classes borrowed from [https://flowbite.com/](https://flowbite.com/), for example the Card component and the progress indicator beneath each activity. Given more time it would be nice to add animations to the question flow.

@@ -5,6 +5,8 @@ import { Question } from "../question";
 import { AnswerButton } from "../answerbutton";
 import { IRoundResponse } from "@/app/interfaces/round-response";
 import { IRound } from "@/app/interfaces/round";
+import { Card } from "../card";
+import { Button } from "../button";
 
 interface ActivityProps {
   activity: IActivity;
@@ -20,6 +22,7 @@ export const Activity = ({ activity, onComplete }: ActivityProps) => {
 
   const [roundIndex, setRoundIndex] = useState<number>(0);
   const [questionIndex, setQuestionIndex] = useState<number>(0);
+  const [showRoundSplash, setShowRoundSplash] = useState<boolean>(false);
 
   const singleRound = activity.rounds.length === 1;
   const round = activity.rounds[roundIndex];
@@ -62,87 +65,33 @@ export const Activity = ({ activity, onComplete }: ActivityProps) => {
     }
   }, [responses]);
 
+  // whenever the round index changes, show the round splash screen
+  useEffect(() => {
+    if (activity.rounds.length > 1) {
+      setShowRoundSplash(true);
+    }
+  }, [roundIndex]);
+
+  const startRound = () => {
+    setShowRoundSplash(false);
+  }
+
+  // determine the progress through the round
+  const progress = `${Math.round(100 * questionIndex / round.questions.length)}%`;
+
   return (
-    <div className="flex flex-col gap-4 px-6 w-full">
-      <h1 className='text-2xl'>{title}</h1>
-      <Question question={question} />
-      <div className="flex flex-row gap-2">
-        <AnswerButton
-          onClick={() => {
-            answerQuestion(true);
-          }}
-          classes='flex-grow-[1]'
-        >
-          Correct
-        </AnswerButton>
-        <AnswerButton
-          onClick={() => {
-            answerQuestion(false);
-          }}
-          classes='flex-grow-[1]'
-        >
-          Incorrect
-        </AnswerButton>
+    <div className="flex flex-col gap-4 px-4 items-center sm:items-start">
+      <h1 className="text-2xl">{title}</h1>
+      {showRoundSplash && 
+        <Card title={round.round_title}>
+          <div className='w-full text-right'>
+            <Button classes='mt-4' onClick={startRound}>Start</Button>
+          </div>
+        </Card>}
+      {!showRoundSplash && <Question question={question} answer={answerQuestion} />}
+      <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+        <div className="bg-blue-600 h-2.5 rounded-full" style={{width: progress}}></div>
       </div>
     </div>
   );
 };
-
-/*
-
-
-const [questionIndex, setQuestionIndex] = useState<number>(0);
-  const [responses, setResponses] = useState<Array<IQuestionResponse>>([]);
-  
-  
-  
-  
-  const question = activity.questions[questionIndex];
-
-  const answerQuestion = (answer: boolean) => {
-    setResponses((prev: Array<IQuestionResponse>) => {
-      return [...prev, { question, answer }];
-    });
-  };
-
-  // this is triggered whenever a question is answered
-  useEffect(() => {
-    // ... but also the first time the component is loaded
-    // in which case do nothing
-    if (responses.length === 0) {
-      return;
-    }
-
-    if (questionIndex < activity.questions.length - 1) {
-      // move to the next question
-      setQuestionIndex((prev: number) => prev + 1);
-    } else {
-      // or finish the activity by passing back the responses
-      onComplete(responses);
-    }
-  }, [responses]);
-
-  return (
-    <div className="w-[50%]">
-      <h1 className="text-blue-500">{activity.activity_name}</h1>
-      <Question question={question} />
-      <div className="flex flex-row gap-2">
-        <AnswerButton
-          onClick={() => {
-            answerQuestion(true);
-          }}
-        >
-          Correct
-        </AnswerButton>
-        <AnswerButton
-          onClick={() => {
-            answerQuestion(false);
-          }}
-        >
-          Incorrect
-        </AnswerButton>
-      </div>
-    </div>
-  );
-
-  */
