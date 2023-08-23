@@ -50,7 +50,7 @@ export default function Home() {
               selectActivity(activity);
             }}
             key={index}
-            classes="px-16"
+            classes="px-16 mx-4"
           >
             {activity.activity_name}
           </Button>
